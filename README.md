@@ -28,7 +28,7 @@
     https://rinkeby.etherscan.io/tx/0x1e99f855934b15f5f8b9008b84244d6e5f5dd1a94080c0cd6429f3f0ea3b4cc6
     
 
-### Versioning:
+### Versioned:
 
     Truffle v5.4.32 (core: 5.4.32)
     Solidity v0.5.16 (solc-js)
