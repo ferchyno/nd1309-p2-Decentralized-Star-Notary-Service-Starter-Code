@@ -11,13 +11,14 @@
     }
   </style>
   <body>
-    <h1>StarNotary Token DAPP</h1>
+    <h1><span id="title"></span></h1>
 
     <hr>
 
     <br>
       <h1>Create a Star</h1>
       <br><label for="starName">Star Name:</label><input type="text" id="starName"></input>
+      <br><label for="starSymbol">Star Symbol:</label><input type="text" id="starSymbol"></input>
       <br><label for="starId">Star ID:</label><input type="text" id="starId"></input>
       <br><br><button id="createStar" onclick="App.createStar()">Create Star</button>
       <br>
@@ -26,6 +27,18 @@
       <h1>Look up a Star</h1>
       <br><label for="name">Star ID:</label><input type="text" id="lookid"></input>
       <br><br><button onclick="App.lookUp()">Look Up a Star</button>
+      <hr>
+      <br>
+      <h1>Exchange Star</h1>
+      <br><label for="exchangeStarId1">Star ID 1:</label><input type="text" id="exchangeStarId1"></input>
+      <br><label for="exchangeStarId2">Star ID 2:</label><input type="text" id="exchangeStarId2"></input>
+      <br><br><button onclick="App.exchangeStar()">Exchange</button>
+      <hr>
+      <br>
+      <h1>Transfer Star</h1>
+      <br><label for="transferStarId">Star ID:</label><input type="text" id="transferStarId"></input>
+      <br><label for="addresTo">Address To:</label><input type="text" id="addresTo"></input>
+      <br><br><button onclick="App.transferStar()">Transfer</button>
       <hr>
       <br>
       <span id="status"></span>

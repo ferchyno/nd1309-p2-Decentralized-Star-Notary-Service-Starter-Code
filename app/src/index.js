@@ -21,6 +21,9 @@ const App = {
       // get accounts
       const accounts = await web3.eth.getAccounts();
       this.account = accounts[0];
+
+      // Set Title
+      App.setTitle();
     } catch (error) {
       console.error("Could not connect to contract or chain.");
     }
@@ -31,19 +34,74 @@ const App = {
     status.innerHTML = message;
   },
 
+  setTitle: async function() {
+    // Retrieve contract function
+    const { starName } = this.meta.methods;
+    const { starSymbol } = this.meta.methods;
+
+    // Call to contract function
+    const name = await starName().call();
+    const symbol = await starSymbol().call();
+
+    const title = document.getElementById("title");
+    title.innerHTML = "StarNotary Token: " + symbol + " - " + name;
+  },
+
   createStar: async function() {
+    // Retrieve contract function
     const { createStar } = this.meta.methods;
+
+    // Prepare params
     const name = document.getElementById("starName").value;
+    const symbol = document.getElementById("starSymbol").value;
     const id = document.getElementById("starId").value;
-    await createStar(name, id).send({from: this.account});
+
+    // Call to contract function
+    await createStar(name, symbol, id).send({from: this.account});
+
+    // Send feedback to user
     App.setStatus("New Star Owner is " + this.account + ".");
   },
 
-  // Implement Task 4 Modify the front end of the DAPP
   lookUp: async function (){
-    
-  }
+    // Retrieve contract function
+    const { lookUptokenIdToStarInfo } = this.meta.methods;
 
+    // Prepare params
+    const tokenId = document.getElementById("lookid").value;
+
+    // Call to contract function
+    const info = await lookUptokenIdToStarInfo(tokenId).call();
+
+    // Send feedback to user
+    App.setStatus("Star Info: " + info + ".");
+  },
+
+  exchangeStar: async function (){
+    // Retrieve contract function
+    const { exchangeStars } = this.meta.methods;
+
+    // Prepare params
+    let status = 'fails';
+    const star1 = document.getElementById("exchangeStarId1").value;
+    const star2 = document.getElementById("exchangeStarId2").value;
+
+    // Call to contract function
+    await exchangeStars(star1, star2).send({from: this.account});
+  },
+
+  transferStar: async function (){
+    // Retrieve contract function
+    const { transferStar } = this.meta.methods;
+
+    // Prepare params
+    let status = 'fails';
+    const starId = document.getElementById("transferStarId").value;
+    const addressTo = document.getElementById("addresTo").value;
+
+    // Call to contract function
+    await transferStar(addressTo, starId).send({from: this.account});
+  }
 };
 
 window.App = App;
@@ -54,9 +112,9 @@ window.addEventListener("load", async function() {
     App.web3 = new Web3(window.ethereum);
     await window.ethereum.enable(); // get permission to access accounts
   } else {
-    console.warn("No web3 detected. Falling back to http://127.0.0.1:9545. You should remove this fallback when you deploy live",);
+    console.warn("No web3 detected. Falling back to http://127.0.0.1:8545. You should remove this fallback when you deploy live",);
     // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-    App.web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:9545"),);
+    App.web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:8545"),);
   }
 
   App.start();
