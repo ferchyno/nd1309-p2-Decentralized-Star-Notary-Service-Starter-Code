@@ -20,6 +20,9 @@ contract StarNotary is ERC721 {
     string public starName;
     string public starSymbol;
 
+    // Nota del profersor:  Los name y symbol son metadatos que tienen un significado especial en los ERC721contratos de token, pero cuando usas starNamey starSymbol, el significado especial se pierde.
+    //                      Aún mejor, puede simplemente pasar el token namey symboldirectamente a ERC721los argumentos del constructor y evitar administrarlos usted mismo.
+    //                      Usar el constructor del Token ERC721 para establecer los valores name y symbol del token
     constructor(string memory _name, string memory _symbol) public {
         starName = _name;
         starSymbol = _symbol;
@@ -142,7 +145,7 @@ contract StarNotary is ERC721 {
         address previousOwnerAddressToken2 = ownerOf(_tokenId2);
 
         //1. Passing to star tokenId you will need to check if the owner of _tokenId1 or _tokenId2 is the sender
-        if (previousOwnerAddressToken1 == msg.sender || previousOwnerAddressToken2 == msg.sender) {
+        if (previousOwnerAddressToken1 == msg.sender || previousOwnerAddressToken2 == msg.sender) { // Nota profesor: Bien hecho, asegurándose de que solo el propietario de cualquiera de las estrellas pueda realizar el intercambio. Le recomiendo que use requirela declaración para verificar esta condición, ya que arrojará un error a la persona que llama si no se cumple la condición.
             //4. Use _transferFrom function to exchange the tokens.
             _transferFrom(previousOwnerAddressToken1, previousOwnerAddressToken2, _tokenId1);
             _transferFrom(previousOwnerAddressToken2, previousOwnerAddressToken1, _tokenId2);
